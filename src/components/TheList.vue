@@ -4,7 +4,7 @@
 		<div class="flex items-center justify-between px-3 py-2">
 			<h3 class="text-sm font-semibold text-gray-700">{{ list.title }}</h3>
 			<button class="grid h-8 w-8 place-content-center rounded-md hover:bg-gray-300" @click="removeList(list.id)">
-				<XIcon class="h-5 w-5 text-gray-400" />
+				<XMarkIcon class="h-5 w-5 text-gray-400" />
 			</button>
 		</div>
 
@@ -59,7 +59,7 @@ import TheCard from "../components/TheCard.vue";
 import AddCard from "../components/AddCard.vue";
 
 // Icons
-import { XIcon, PlusIcon } from "@heroicons/vue/solid";
+import { XMarkIcon, PlusIcon } from "@heroicons/vue/24/solid";
 
 // Store
 import { useBoardStore } from "@/stores/board";

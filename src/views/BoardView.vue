@@ -13,7 +13,7 @@
 						<button
 							class="mr-3 inline-flex items-center rounded-md bg-orange-400 px-3 py-2 text-sm font-medium text-white hover:bg-orange-500"
 							@click="boardStore.reset">
-							<CogIcon class="h-5 w-5 text-gray-300" />
+							<ArrowPathIcon class="h-5 w-5 text-green-300" />
 							<span class="ml-2"> Reset</span>
 						</button>
 						<button
@@ -55,7 +55,7 @@ import { watch } from "vue";
 import { save as saveToLocalStorage } from "../utils/localStorageHelper";
 
 // Icons
-import { CogIcon } from "@heroicons/vue/solid";
+import { CogIcon, ArrowPathIcon, } from "@heroicons/vue/24/solid";
 
 // Store
 import { useBoardStore } from "@/stores/board";

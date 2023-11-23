@@ -56,6 +56,7 @@ export const useBoardStore = defineStore({
 			// const cloneData = [...data];
 
 			const cloneData = JSON.parse(JSON.stringify(data));
+			// console.log("cloneData", cloneData);
 			this.replaceLists(cloneData);
 		},
 		addItem({ listId, title, description, date }) {

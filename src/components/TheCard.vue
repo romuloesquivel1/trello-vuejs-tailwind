@@ -24,7 +24,7 @@
 import { ref } from "vue";
 import { useBoardStore } from "@/stores/board";
 import AddCard from "./AddCard.vue";
-import { TrashIcon, PencilIcon } from "@heroicons/vue/solid";
+import { TrashIcon, PencilIcon } from "@heroicons/vue/24/solid";
 
 const props = defineProps({ task: Object, listId: String });
 
