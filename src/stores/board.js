@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { getItemById, getListById, getListByItemId } from "../utils/board";
 import { makeItem, makeList } from "../utils/board";
 import data from "../api";
+console.log('original data', data);
 
 export const useBoardStore = defineStore({
 	id: "board",
@@ -26,6 +27,12 @@ export const useBoardStore = defineStore({
 		removeList({ listId }) {
 			const index = this.lists.findIndex((list) => list.id === listId);
 			this.lists.splice(index, 1);
+		},
+		updateList({ id, title, items }) {
+			const list = getListById(this.lists, id);
+			if (list) {
+				Object.assign(list, { id, title, items });
+			}
 		},
 		addItem({ listId, title, description, date }) {
 			const list = getListById(this.lists, listId);

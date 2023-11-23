@@ -1,5 +1,5 @@
 <template>
-	<div @drop="onDrop($event, list.id)" class="flex max-h-full w-72 flex-col rounded-md bg-gray-200">
+	<div class="flex max-h-full w-72 flex-col rounded-md bg-gray-200">
 		<!-- List Title -->
 		<div class="flex items-center justify-between px-3 py-2">
 			<h3 class="text-sm font-semibold text-gray-700">{{ list.title }}</h3>
@@ -19,7 +19,7 @@
 					tag="ul"
 					drag-class="drag"
 					ghost-class="ghost"
-					@dragstart="onStart"
+					@change="onChange"
 				>
 					<template #item="{ element }">
 						<TheCard :task="element" :list-id="list.id" />
@@ -72,7 +72,7 @@ const props = defineProps({ list: Object });
 const listItems = ref(props.list.items);
 
 // Emits
-const emit = defineEmits(["onStart", "onDrop"]);
+const emit = defineEmits(["onStart", "onDrop", 'onChange']);
 
 // Modal Open/Close Methods
 const isOpen = ref(false);
@@ -83,12 +83,18 @@ function closeModal() {
 	isOpen.value = false;
 }
 
+/*
 // Drag n' Drop Methods
 function onStart(evt) {
 	emit("onStart", { evt });
 }
 function onDrop(evt, listId) {
 	emit("onDrop", { evt, listId });
+}
+*/
+function onChange(evt) {
+	console.log('TheList onChange', evt);
+	emit("onChange", { ...props.list, items: listItems.value });
 }
 
 // List Methods

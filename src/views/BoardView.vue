@@ -26,8 +26,7 @@
 							v-for="list in lists"
 							:key="list.id"
 							:list="list"
-							@on-start="onDragStart"
-							@on-drop="onDragDrop"
+							@onChange="onChange"
 						/>
 
 						<!-- Add List -->
@@ -46,7 +45,8 @@
 import TheNavbar from "../components/TheNavbar.vue";
 import TheList from "../components/TheList.vue";
 import AddList from "../components/AddList.vue";
-
+import { watch } from "vue";
+import { mapWritableState } from "pinia";
 // Utils
 import { getIndexOfItemById } from "../utils/board";
 
@@ -60,6 +60,14 @@ import { useBoardStore } from "@/stores/board";
 const boardStore = useBoardStore();
 const lists = boardStore.lists;
 
+// watch lists change
+watch(lists, function (newLists) {
+	console.log("lists changed", newLists);
+	// boardStore.saveLists(newLists);
+	// mapWritableState(boardStore, { lists: newLists });
+});
+
+/*
 // Drag n' Drop Methods
 function onDragStart({ evt }) {
 	evt.dataTransfer.dropEffect = "move";
@@ -79,6 +87,12 @@ function onDragDrop({ evt, listId }) {
 	const newIndex = getIndexOfItemById(lists, itemID);
 
 	boardStore.moveItem([fromList.id, oldIndex, toList.id, newIndex]);
+}
+*/
+function onChange(list) {
+	console.log('boardView onChange', list.title, list.items, list.items.length);
+	boardStore.updateList(list);
+	// boardStore.moveItem([fromListId, fromIndex, toListId, toIndex]);
 }
 </script>
 

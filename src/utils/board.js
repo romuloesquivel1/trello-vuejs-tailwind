@@ -1,12 +1,12 @@
-import { v1 as uuidv1 } from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 export function makeItem(title, description, date, id = null) {
-	id = id || uuidv1();
+	id = id || uuidv4();
 	return { id, title, description, date };
 }
 
-export function makeList(title, items = []) {
-	const id = uuidv1();
+export function makeList(title, items = [], id = null) {
+	id = id || uuidv4();
 	return { id, title, items };
 }
 
