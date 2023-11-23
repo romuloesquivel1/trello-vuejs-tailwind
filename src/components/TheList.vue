@@ -51,7 +51,7 @@
 
 <script setup>
 // General
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import Draggable from "vuedraggable";
 
 // Components
@@ -83,17 +83,14 @@ function closeModal() {
 	isOpen.value = false;
 }
 
-/*
-// Drag n' Drop Methods
-function onStart(evt) {
-	emit("onStart", { evt });
-}
-function onDrop(evt, listId) {
-	emit("onDrop", { evt, listId });
-}
-*/
+// watch list change
+watch(() => props.list, (newList) => {
+	// console.log("TheList: list changed", newList);
+	listItems.value = newList.items;
+});
+
 function onChange(evt) {
-	console.log('TheList onChange', evt);
+	// console.log('TheList onChange', evt);
 	emit("onChange", { ...props.list, items: listItems.value });
 }
 

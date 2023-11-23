@@ -2,12 +2,14 @@ import { defineStore } from "pinia";
 import { getItemById, getListById, getListByItemId } from "../utils/board";
 import { makeItem, makeList } from "../utils/board";
 import data from "../api";
-console.log('original data', data);
+// console.log('original data', data);
+import { load as loadFromLocalStorage } from "../utils/localStorageHelper";
+
 
 export const useBoardStore = defineStore({
 	id: "board",
 	state: () => ({
-		lists: data,
+		lists: loadFromLocalStorage() || data,
 	}),
 	getters: {
 		getListById: (state) => (listId) => {
@@ -34,6 +36,28 @@ export const useBoardStore = defineStore({
 				Object.assign(list, { id, title, items });
 			}
 		},
+		replaceLists(lists = []) {
+			// we can't replace whole lists because it's not reactive
+			// this.lists = [...lists];
+			// or the below one because it's not deep clone
+			// this.lists = JSON.parse(JSON.stringify(lists));
+
+			// must
+			// 1 - clear the lists
+			this.lists.splice(0, this.lists.length);
+			// 2 - add new lists
+			lists.forEach((list) => {
+				this.lists.push(makeList(list.title, list.items, list.id));
+			});
+		},
+		// clone the original data and replace the lists
+		reset() {
+			// we can't use this because it's not deep clone
+			// const cloneData = [...data];
+
+			const cloneData = JSON.parse(JSON.stringify(data));
+			this.replaceLists(cloneData);
+		},
 		addItem({ listId, title, description, date }) {
 			const list = getListById(this.lists, listId);
 			list.items.push(makeItem(title, description, date, null));
@@ -50,11 +74,6 @@ export const useBoardStore = defineStore({
 				list.items.findIndex((item) => item.id === itemId),
 				1
 			);
-		},
-		moveItem([fromListRef, fromIndex, toListRef, toIndex]) {
-			const fromList = getListById(this.lists, fromListRef);
-			const toList = getListById(this.lists, toListRef);
-			toList.items.splice(toIndex, 0, fromList.items.splice(fromIndex, 1)[0]);
 		},
 	},
 });

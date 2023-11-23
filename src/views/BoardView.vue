@@ -11,6 +11,12 @@
 					<h1 class="text-2xl font-bold text-white">Wall-E</h1>
 					<div>
 						<button
+							class="mr-3 inline-flex items-center rounded-md bg-orange-400 px-3 py-2 text-sm font-medium text-white hover:bg-orange-500"
+							@click="boardStore.reset">
+							<CogIcon class="h-5 w-5 text-gray-300" />
+							<span class="ml-2"> Reset</span>
+						</button>
+						<button
 							class="inline-flex items-center rounded-md bg-white/10 px-3 py-2 text-sm font-medium text-white hover:bg-white/20"
 						>
 							<CogIcon class="h-5 w-5 text-gray-300" />
@@ -46,9 +52,7 @@ import TheNavbar from "../components/TheNavbar.vue";
 import TheList from "../components/TheList.vue";
 import AddList from "../components/AddList.vue";
 import { watch } from "vue";
-import { mapWritableState } from "pinia";
-// Utils
-import { getIndexOfItemById } from "../utils/board";
+import { save as saveToLocalStorage } from "../utils/localStorageHelper";
 
 // Icons
 import { CogIcon } from "@heroicons/vue/solid";
@@ -62,37 +66,12 @@ const lists = boardStore.lists;
 
 // watch lists change
 watch(lists, function (newLists) {
-	console.log("lists changed", newLists);
-	// boardStore.saveLists(newLists);
-	// mapWritableState(boardStore, { lists: newLists });
+	// console.log("BoardView: lists changed", newLists);
+	saveToLocalStorage(newLists);
 });
 
-/*
-// Drag n' Drop Methods
-function onDragStart({ evt }) {
-	evt.dataTransfer.dropEffect = "move";
-	evt.dataTransfer.effectAllowed = "move";
-
-	evt.dataTransfer.setData("itemID", evt.srcElement.__draggable_context.element.id);
-	evt.dataTransfer.setData("oldIndex", evt.srcElement.__draggable_context.index);
-}
-
-function onDragDrop({ evt, listId }) {
-	const itemID = evt.dataTransfer.getData("itemID");
-
-	const fromList = boardStore.getListByItemId(itemID);
-	const oldIndex = evt.dataTransfer.getData("oldIndex");
-
-	const toList = boardStore.getListById(listId);
-	const newIndex = getIndexOfItemById(lists, itemID);
-
-	boardStore.moveItem([fromList.id, oldIndex, toList.id, newIndex]);
-}
-*/
 function onChange(list) {
-	console.log('boardView onChange', list.title, list.items, list.items.length);
 	boardStore.updateList(list);
-	// boardStore.moveItem([fromListId, fromIndex, toListId, toIndex]);
 }
 </script>
 
