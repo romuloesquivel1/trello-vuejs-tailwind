@@ -1,15 +1,14 @@
 import { defineStore } from "pinia";
 import { getItemById, getListById, getListByItemId } from "../utils/board";
 import { makeItem, makeList } from "../utils/board";
-import data from "../api";
-// console.log('original data', data);
+import api from '../api/index';
 import { load as loadFromLocalStorage } from "../utils/localStorageHelper";
 
 
 export const useBoardStore = defineStore({
 	id: "board",
 	state: () => ({
-		lists: loadFromLocalStorage() || data,
+		lists: loadFromLocalStorage() || api.data,
 	}),
 	getters: {
 		getListById: (state) => (listId) => {
@@ -55,9 +54,10 @@ export const useBoardStore = defineStore({
 			// we can't use this because it's not deep clone
 			// const cloneData = [...data];
 
-			const cloneData = JSON.parse(JSON.stringify(data));
-			// console.log("cloneData", cloneData);
-			this.replaceLists(cloneData);
+			const cloneData = JSON.parse(JSON.stringify(api.data));
+			setTimeout(() => {
+				this.replaceLists(cloneData);
+			}, 10);
 		},
 		addItem({ listId, title, description, date }) {
 			const list = getListById(this.lists, listId);

@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
+import NotFoundView from '../views/NotFoundView.vue';
 
 const router = new createRouter({
 	history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -13,6 +14,21 @@ const router = new createRouter({
 			path: "/board",
 			name: "board",
 			component: () => import("../views/BoardView.vue"),
+		},
+		{
+			path: "/login",
+			name: "login",
+			component: () => import("../views/LoginView.vue"),
+		},
+		{
+			path: "/profile",
+			name: "profile",
+			component: () => import("../views/ProfileView.vue"),
+		},
+
+		{
+			path: '/:pathMatch(.*)*',
+			name: 'not_found', component: NotFoundView
 		},
 	],
 });

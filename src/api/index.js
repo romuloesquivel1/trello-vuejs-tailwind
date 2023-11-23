@@ -10,4 +10,19 @@ const data = json.map((list) => ({
 	})),
 }));
 
-export default data;
+const users = [
+	{
+		id: uuidv4(),
+		name: "Linus Torvalds",
+		email: "linus.torvalds@test.local",
+		password: "123456",
+	},
+	{
+		id: uuidv4(),
+		name: "Jane Doe",
+		email: "jane.doe@test.local",
+		password: "123456",
+	},
+];
+
+export default { data, users };

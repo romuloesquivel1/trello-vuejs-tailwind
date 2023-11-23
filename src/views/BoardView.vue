@@ -1,8 +1,5 @@
 <template>
 	<div class="flex h-screen flex-col bg-blue-600">
-		<!-- TheNavbar -->
-		<TheNavbar />
-
 		<!-- Board Screen -->
 		<main class="flex-1 overflow-hidden">
 			<div class="flex h-full flex-col">
@@ -13,7 +10,7 @@
 						<button
 							class="mr-3 inline-flex items-center rounded-md bg-orange-400 px-3 py-2 text-sm font-medium text-white hover:bg-orange-500"
 							@click="boardStore.reset">
-							<ArrowPathIcon class="h-5 w-5 text-green-300" />
+							<ArrowPathIcon class="h-5 w-5 text-white" />
 							<span class="ml-2"> Reset</span>
 						</button>
 						<button
@@ -48,7 +45,6 @@
 
 <script setup>
 // Components
-import TheNavbar from "../components/TheNavbar.vue";
 import TheList from "../components/TheList.vue";
 import AddList from "../components/AddList.vue";
 import { watch } from "vue";
