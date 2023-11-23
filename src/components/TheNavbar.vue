@@ -41,7 +41,7 @@ import { RouterLink } from "vue-router";
 import { useUserStore } from "@/stores/user";
 import { computed, ref } from "vue";
 import { useRouter } from 'vue-router'
-import { save as saveToStorage, USER_KEY } from "@/utils/localStorageHelper";
+import { save as saveToLocalStorage, USER_KEY } from "@/utils/localStorageHelper";
 
 const userStore = useUserStore();
 const user = computed(() => userStore.user);
@@ -51,7 +51,7 @@ const router = useRouter();
 const logout = () => {
 	userStore.logout();
 	open.value = false;
-	saveToStorage(USER_KEY, null);
+	saveToLocalStorage(USER_KEY, null);
 
 	if (router.name === "profile") {
 		router.push({ name: "home" });

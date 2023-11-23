@@ -2,13 +2,13 @@ import { defineStore } from "pinia";
 import { getItemById, getListById, getListByItemId } from "../utils/board";
 import { makeItem, makeList } from "../utils/board";
 import api from '../api/index';
-import { load as loadFromLocalStorage } from "../utils/localStorageHelper";
+import { load as loadFromLocalStorage, BOARD_KEY } from "../utils/localStorageHelper";
 
 
 export const useBoardStore = defineStore({
 	id: "board",
 	state: () => ({
-		lists: loadFromLocalStorage() || api.data,
+		lists: loadFromLocalStorage(BOARD_KEY) || api.data,
 	}),
 	getters: {
 		getListById: (state) => (listId) => {

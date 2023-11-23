@@ -48,7 +48,7 @@
 import TheList from "../components/TheList.vue";
 import AddList from "../components/AddList.vue";
 import { watch } from "vue";
-import { save as saveToLocalStorage } from "../utils/localStorageHelper";
+import { save as saveToLocalStorage, BOARD_KEY } from "@/utils/localStorageHelper";
 
 // Icons
 import { CogIcon, ArrowPathIcon, } from "@heroicons/vue/24/solid";
@@ -63,7 +63,7 @@ const lists = boardStore.lists;
 // watch lists change
 watch(lists, function (newLists) {
 	// console.log("BoardView: lists changed", newLists);
-	saveToLocalStorage(newLists);
+	saveToLocalStorage(BOARD_KEY, newLists);
 });
 
 function onChange(list) {
