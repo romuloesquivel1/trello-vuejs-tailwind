@@ -23,10 +23,7 @@ import { RouterLink } from "vue-router";
 
 		<div>
 			<p class="text-center text-gray-600">
-				Made with ❤️ by
-				<a href="https://github.com/pratik149/" class="text-blue-500 hover:text-blue-600" target="_blank">
-					@pratik149
-				</a>
+				Made with ❤️ by Copilot
 			</p>
 		</div>
 	</main>

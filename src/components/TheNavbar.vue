@@ -53,7 +53,7 @@ const logout = () => {
 	open.value = false;
 	saveToLocalStorage(USER_KEY, null);
 
-	if (router.name === "profile") {
+	if (router.currentRoute.value.name === "profile") {
 		router.push({ name: "home" });
 	}
 };
