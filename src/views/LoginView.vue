@@ -1,31 +1,33 @@
 <template>
 
   <div class="flex flex-col justify-center items-center bg-gray-200 w-full h-screen">
-    <h1 class="mb-6 text-3xl font-bold text-gray-700">Login</h1>
+    <h1 class="mb-6 text-3xl font-bold text-gray-700">{{ user ? 'Welcome' : 'Login' }}</h1>
     <div v-if="isLoggedIn === false" class="mb-6 text-red-500">Invalid credentials</div>
-    <div v-if="isLoggedIn === true" class="mb-6 text-green-500">
-      Login successful, redirecting in {{ secondToRedirect }}...
 
-      <div class="flex flex-row justify-center items-center">
-        <router-link :to="{ name: 'home' }">
+    <div v-if="user" class="mb-6 text-green-500">
+      <div v-if="isLoggedIn === true">Login successful, redirecting in {{ secondToRedirect }}...</div>
+
+      <div class="mt-2 flex flex-row justify-center items-center">
+        <a href="#" @click.prevent="goToPage('home')">
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Go to Home
           </button>
-        </router-link>
-        <router-link :to="{ name: 'board' }">
-          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        </a>
+        <a href="#" class="mx-5" @click.prevent="goToPage('board')">
+          <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
             Go to Board
           </button>
-        </router-link>
-        <router-link :to="{ name: 'profile' }">
-          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Logout
+        </a>
+        <a href="#" @click.prevent="goToPage('profile')">
+          <button class="bg-orange-400 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
+            Profile
           </button>
-        </router-link>
+        </a>
       </div>
     </div>
 
-    <form @submit.prevent="login" class="bg-white shadow-md rounded px-8 py-6 w-1/3">
+    <div v-if="user">You are logged in as {{ user.name }}</div>
+    <form v-else-if="!user" @submit.prevent="login" class="bg-white shadow-md rounded px-8 py-6 w-1/3">
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
           Email:
@@ -58,21 +60,11 @@
 
 </template>
 
-<style scoped>
-.form-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  height: 100%;
-}
-</style>
-
 <script setup>
-import { ref, } from 'vue'
+import { ref, computed } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
+import { save as saveToLocalStorage, USER_KEY } from '@/utils/localStorageHelper'
 
 const router = useRouter()
 const email = ref('')
@@ -80,12 +72,24 @@ const password = ref('')
 const userStore = useUserStore()
 const isLoggedIn = ref(null)
 const secondToRedirect = ref(15)
+const user = computed(() => userStore.user);
+const id = ref(null);
+
+const goToPage = (page) => {
+  if (id.value) {
+    console.log('clear interval', id.value);
+    clearInterval(id.value);
+  }
+  router.push({ name: page });
+}
 
 function login() {
   isLoggedIn.value = null;
   isLoggedIn.value = userStore.login(email.value, password.value);
   if (isLoggedIn.value) {
-    setInterval(() => {
+    saveToLocalStorage(USER_KEY, user.value);
+
+    id.value = setInterval(() => {
       secondToRedirect.value -= 1;
       if (secondToRedirect.value === 0) {
         router.push({ name: 'home' })
@@ -93,4 +97,5 @@ function login() {
     }, 1000);
   }
 }
+
 </script>
