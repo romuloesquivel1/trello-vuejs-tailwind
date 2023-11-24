@@ -8,21 +8,21 @@
       <div v-if="isLoggedIn === true">Login successful, redirecting in {{ secondToRedirect }}...</div>
 
       <div class="mt-2 flex flex-row justify-center items-center">
-        <a href="#" @click.prevent="goToPage('home')">
+        <router-link :to="{ name: 'home' }">
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Go to Home
           </button>
-        </a>
-        <a href="#" class="mx-5" @click.prevent="goToPage('board')">
+        </router-link>
+        <router-link class="mx-5" :to="{ name: 'board' }">
           <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
             Go to Board
           </button>
-        </a>
-        <a href="#" @click.prevent="goToPage('profile')">
+        </router-link>
+          <router-link :to="{ name: 'profile' }">
           <button class="bg-orange-400 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
             Profile
           </button>
-        </a>
+        </router-link>
       </div>
     </div>
 
@@ -61,7 +61,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onUnmounted } from 'vue'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 import { save as saveToLocalStorage, USER_KEY } from '@/utils/localStorageHelper'
@@ -74,13 +74,6 @@ const isLoggedIn = ref(null)
 const secondToRedirect = ref(15)
 const user = computed(() => userStore.user);
 const id = ref(null);
-
-const goToPage = (page) => {
-  if (id.value)
-    clearInterval(id.value);
-
-  router.push({ name: page });
-}
 
 function login() {
   isLoggedIn.value = null;
@@ -97,4 +90,11 @@ function login() {
   }
 }
 
+// clear interval when component is unmounted
+onUnmounted(() => {
+  if (id.value) {
+    console.log('clear interval', id.value)
+    clearInterval(id.value);
+  }
+});
 </script>

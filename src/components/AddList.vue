@@ -1,5 +1,5 @@
 <template>
-	<button
+	<button v-if="isLoggedIn"
 		type="button"
 		@click="openModal"
 		class="flex w-full items-center rounded-md bg-white/10 p-2 text-sm font-medium text-white hover:bg-white/20"
@@ -79,12 +79,17 @@
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, computed } from "vue";
 import { TransitionRoot, TransitionChild, Dialog, DialogOverlay, DialogTitle } from "@headlessui/vue";
 import { useBoardStore } from "@/stores/board";
+import { useUserStore } from "@/stores/user";
 
 // Store
 const boardStore = useBoardStore();
+
+// check if user is logged in
+const userStore = useUserStore();
+const isLoggedIn = computed(() => userStore.user !== null);
 
 // Modal Open/Close
 const isOpen = ref(false);

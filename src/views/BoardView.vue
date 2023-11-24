@@ -6,8 +6,9 @@
 				<!-- Board Title -->
 				<div class="flex shrink-0 items-center justify-between p-4">
 					<h1 class="text-2xl font-bold text-white">Wall-E</h1>
+					<span v-if="!isLoggedIn" class="text-sm font-semibold text-white">You need to login to enable perform actions</span>
 					<div>
-						<button
+						<button v-if="isLoggedIn"
 							class="mr-3 inline-flex items-center rounded-md bg-orange-400 px-3 py-2 text-sm font-medium text-white hover:bg-orange-500"
 							@click="boardStore.reset">
 							<ArrowPathIcon class="h-5 w-5 text-white" />
@@ -47,8 +48,9 @@
 // Components
 import TheList from "../components/TheList.vue";
 import AddList from "../components/AddList.vue";
-import { watch } from "vue";
+import { watch, computed } from "vue";
 import { save as saveToLocalStorage, BOARD_KEY } from "@/utils/localStorageHelper";
+import { useUserStore } from '../stores/user';
 
 // Icons
 import { CogIcon, ArrowPathIcon, } from "@heroicons/vue/24/solid";
@@ -59,6 +61,10 @@ import { useBoardStore } from "@/stores/board";
 // Data
 const boardStore = useBoardStore();
 const lists = boardStore.lists;
+
+// check if user is logged in
+const userStore = useUserStore();
+const isLoggedIn = computed(() => userStore.user !== null);
 
 // watch lists change
 watch(lists, function (newLists) {

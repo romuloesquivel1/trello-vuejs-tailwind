@@ -3,7 +3,7 @@
 		<!-- List Title -->
 		<div class="flex items-center justify-between px-3 py-2">
 			<h3 class="text-sm font-semibold text-gray-700">{{ list.title }}</h3>
-			<button class="grid h-8 w-8 place-content-center rounded-md hover:bg-gray-300" @click="openConfirmModal">
+			<button v-if="isLoggedIn" class="grid h-8 w-8 place-content-center rounded-md hover:bg-gray-300" @click="openConfirmModal">
 				<XMarkIcon class="h-5 w-5 text-gray-400" />
 			</button>
 		</div>
@@ -20,6 +20,7 @@
 					drag-class="drag"
 					ghost-class="ghost"
 					@change="onChange"
+					:disabled="!isLoggedIn"
 				>
 					<template #item="{ element }">
 						<TheCard :task="element" :list-id="list.id" />
@@ -28,7 +29,7 @@
 			</div>
 
 			<!-- Add Card -->
-			<div class="mt-3 px-3">
+			<div v-if="isLoggedIn" class="mt-3 px-3">
 				<button
 					type="button"
 					@click="openModal"
@@ -51,8 +52,9 @@
 
 <script setup>
 // General
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import Draggable from "vuedraggable";
+import { useUserStore } from '../stores/user';
 
 // Components
 import TheCard from "../components/TheCard.vue";
@@ -72,6 +74,10 @@ const listItems = ref(props.list.items);
 
 // Emits
 const emit = defineEmits(["onStart", "onDrop", 'onChange']);
+
+// check if user is logged in
+const userStore = useUserStore();
+const isLoggedIn = computed(() => userStore.user !== null);
 
 // Modal Open/Close Methods
 const isOpen = ref(false);
