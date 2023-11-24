@@ -15,14 +15,14 @@
 					<TrashIcon class="h-4 w-4 text-center text-red-500" />
 				</button>
 			</div>
-			<AddCard v-if="isOpen" :is-open="isOpen" :task="task" :is-edit="true" @close-modal="closeEditModal" />
+			<CardForm v-if="isOpen" :is-open="isOpen" :task="task" :is-edit="true" @close-modal="closeEditModal" />
 		</div>
 	</li>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import AddCard from "./AddCard.vue";
+import CardForm from "./CardForm.vue";
 import { TrashIcon, PencilIcon } from "@heroicons/vue/24/solid";
 import { EventBus } from '../utils/EventBus.js';
 
@@ -39,8 +39,9 @@ function closeEditModal() {
 	isOpen.value = false;
 }
 
+// Confirm Modal
 function openConfirmModal() {
-	EventBus.emit('open-modal', { itemId: props.task.id });
+	EventBus.emit('open-modal', { type: 'task', itemId: props.task.id });
 }
 </script>
 

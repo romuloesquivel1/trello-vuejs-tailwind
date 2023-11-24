@@ -3,7 +3,7 @@
 		<!-- List Title -->
 		<div class="flex items-center justify-between px-3 py-2">
 			<h3 class="text-sm font-semibold text-gray-700">{{ list.title }}</h3>
-			<button class="grid h-8 w-8 place-content-center rounded-md hover:bg-gray-300" @click="removeList(list.id)">
+			<button class="grid h-8 w-8 place-content-center rounded-md hover:bg-gray-300" @click="openConfirmModal">
 				<XMarkIcon class="h-5 w-5 text-gray-400" />
 			</button>
 		</div>
@@ -38,7 +38,7 @@
 				</button>
 			</div>
 
-			<AddCard
+			<CardForm
 				v-if="isOpen"
 				:is-open="isOpen"
 				:list-id="list.id"
@@ -56,14 +56,13 @@ import Draggable from "vuedraggable";
 
 // Components
 import TheCard from "../components/TheCard.vue";
-import AddCard from "../components/AddCard.vue";
+import CardForm from "../components/CardForm.vue";
+
+// Utils
+import { EventBus } from '../utils/EventBus.js';
 
 // Icons
 import { XMarkIcon, PlusIcon } from "@heroicons/vue/24/solid";
-
-// Store
-import { useBoardStore } from "@/stores/board";
-const boardStore = useBoardStore();
 
 // Props
 const props = defineProps({ list: Object });
@@ -76,9 +75,11 @@ const emit = defineEmits(["onStart", "onDrop", 'onChange']);
 
 // Modal Open/Close Methods
 const isOpen = ref(false);
+
 function openModal() {
 	isOpen.value = true;
 }
+
 function closeModal() {
 	isOpen.value = false;
 }
@@ -95,12 +96,11 @@ function onChange(evt) {
 }
 
 // List Methods
-function removeList(listId) {
-	boardStore.removeList({
-		listId: listId,
-	});
+function openConfirmModal() {
+	EventBus.emit('open-modal', { type: 'list', itemId: props.list.id });
 }
 
+// Scroll to start
 const listRef = ref();
 function onCardCreated() {
 	listRef.value.scrollTop = listRef.value.scrollHeight;

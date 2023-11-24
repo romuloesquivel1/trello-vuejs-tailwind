@@ -88,9 +88,11 @@ const boardStore = useBoardStore();
 
 // Modal Open/Close
 const isOpen = ref(false);
+
 function closeModal() {
 	isOpen.value = false;
 }
+
 function openModal() {
 	isOpen.value = true;
 }
@@ -99,6 +101,7 @@ function openModal() {
 let list = reactive({
 	title: "",
 });
+
 function addNewList() {
 	boardStore.addList({ title: list.title });
 	list.title = "";

@@ -66,6 +66,7 @@ import { EventBus } from '../utils/EventBus.js';
 import { useBoardStore } from "@/stores/board";
 
 const currentConfirmItemId = ref(null);
+const currentConfirmItemType = ref(null);
 
 // Modal Open/Close
 const isOpen = ref(false);
@@ -75,20 +76,29 @@ const boardStore = useBoardStore();
 function closeModal() {
 	isOpen.value = false;
 	currentConfirmItemId.value = null;
+	currentConfirmItemType.value = null;
 }
 
 function openModal() {
 	isOpen.value = true;
 }
 
+// Confirm Action
 function confirmAction() {
-	boardStore.removeItem({ itemId: currentConfirmItemId.value });
+	if (currentConfirmItemType.value === 'task') {
+		boardStore.removeItem({ itemId: currentConfirmItemId.value });
+	} else if (currentConfirmItemType.value === 'list') {
+		boardStore.removeList({ listId: currentConfirmItemId.value });
+	}
+
   closeModal();
 }
 
+// listen for open modal event
 onMounted(() => {
-  EventBus.on('open-modal', ({ itemId }) => {
+  EventBus.on('open-modal', ({ type, itemId }) => {
 		currentConfirmItemId.value = itemId;
+		currentConfirmItemType.value = type;
     openModal();
   });
 });
