@@ -63,12 +63,18 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import { TransitionRoot, TransitionChild, Dialog, DialogOverlay, DialogTitle } from "@headlessui/vue";
 import { EventBus } from '../utils/EventBus.js';
+import { useBoardStore } from "@/stores/board";
+
+const currentConfirmItemId = ref(null);
 
 // Modal Open/Close
 const isOpen = ref(false);
 
+const boardStore = useBoardStore();
+
 function closeModal() {
 	isOpen.value = false;
+	currentConfirmItemId.value = null;
 }
 
 function openModal() {
@@ -76,13 +82,13 @@ function openModal() {
 }
 
 function confirmAction() {
-  console.log("Action Confirmed");
+	boardStore.removeItem({ itemId: currentConfirmItemId.value });
   closeModal();
 }
 
 onMounted(() => {
   EventBus.on('open-modal', ({ itemId }) => {
-    console.log("EventBus: open-modal", itemId);
+		currentConfirmItemId.value = itemId;
     openModal();
   });
 });

@@ -76,10 +76,9 @@ const user = computed(() => userStore.user);
 const id = ref(null);
 
 const goToPage = (page) => {
-  if (id.value) {
-    console.log('clear interval', id.value);
+  if (id.value)
     clearInterval(id.value);
-  }
+
   router.push({ name: page });
 }
 

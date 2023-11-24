@@ -8,42 +8,39 @@
 				</p>
 			</div>
 			<div class="absolute top-1 right-1 bottom-1 hidden justify-between group-hover:grid">
-				<button type="button" @click="openModal" class="rounded-md bg-gray-50 px-2 hover:bg-gray-100">
+				<button type="button" @click="openEditModal" class="rounded-md bg-gray-50 px-2 hover:bg-gray-100">
 					<PencilIcon class="h-4 w-4 text-center text-gray-500" />
 				</button>
-				<button @click="deleteTask" class="bg-gray-60 rounded-md px-2 hover:bg-gray-100">
+				<button @click="openConfirmModal" class="bg-gray-60 rounded-md px-2 hover:bg-gray-100">
 					<TrashIcon class="h-4 w-4 text-center text-red-500" />
 				</button>
 			</div>
-			<AddCard v-if="isOpen" :is-open="isOpen" :task="task" :is-edit="true" @close-modal="closeModal" />
+			<AddCard v-if="isOpen" :is-open="isOpen" :task="task" :is-edit="true" @close-modal="closeEditModal" />
 		</div>
 	</li>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import { useBoardStore } from "@/stores/board";
 import AddCard from "./AddCard.vue";
 import { TrashIcon, PencilIcon } from "@heroicons/vue/24/solid";
 import { EventBus } from '../utils/EventBus.js';
 
 const props = defineProps({ task: Object, listId: String });
 
-const boardStore = useBoardStore();
-
 // Modal Open/Close Methods
 const isOpen = ref(false);
-function openModal() {
+
+function openEditModal() {
 	isOpen.value = true;
 }
-function closeModal() {
+
+function closeEditModal() {
 	isOpen.value = false;
 }
 
-// Task Methods
-function deleteTask() {
+function openConfirmModal() {
 	EventBus.emit('open-modal', { itemId: props.task.id });
-	// boardStore.removeItem({ itemId: props.task.id });
 }
 </script>
 
