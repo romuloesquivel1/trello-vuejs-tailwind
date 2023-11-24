@@ -25,6 +25,7 @@ import { ref } from "vue";
 import { useBoardStore } from "@/stores/board";
 import AddCard from "./AddCard.vue";
 import { TrashIcon, PencilIcon } from "@heroicons/vue/24/solid";
+import { EventBus } from '../utils/EventBus.js';
 
 const props = defineProps({ task: Object, listId: String });
 
@@ -41,7 +42,8 @@ function closeModal() {
 
 // Task Methods
 function deleteTask() {
-	boardStore.removeItem({ itemId: props.task.id });
+	EventBus.emit('open-modal', { itemId: props.task.id });
+	// boardStore.removeItem({ itemId: props.task.id });
 }
 </script>
 

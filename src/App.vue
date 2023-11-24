@@ -4,6 +4,8 @@ import TheNavbar from "./components/TheNavbar.vue";
 import { useRoute } from "vue-router";
 import { computed } from "vue";
 import { useUserStore } from "@/stores/user";
+import ModalConfirm from "@/components/ModalConfirm.vue";
+
 const userStore = useUserStore();
 const user = computed(() => userStore.user);
 const router = useRoute();
@@ -17,4 +19,5 @@ const isLoginRoute = computed(() => {
 <template>
 	<TheNavbar v-if="!isLoginRoute || user" />
 	<RouterView />
+	<ModalConfirm />
 </template>
