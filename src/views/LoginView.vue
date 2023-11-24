@@ -93,7 +93,6 @@ function login() {
 // clear interval when component is unmounted
 onUnmounted(() => {
   if (id.value) {
-    console.log('clear interval', id.value)
     clearInterval(id.value);
   }
 });

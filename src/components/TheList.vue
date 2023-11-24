@@ -23,7 +23,7 @@
 					:disabled="!isLoggedIn"
 				>
 					<template #item="{ element }">
-						<TheCard :task="element" :list-id="list.id" />
+						<TheCard :task="element" :isLoggedIn="isLoggedIn" />
 					</template>
 				</Draggable>
 			</div>
@@ -52,9 +52,8 @@
 
 <script setup>
 // General
-import { ref, watch, computed } from "vue";
+import { ref, watch, } from "vue";
 import Draggable from "vuedraggable";
-import { useUserStore } from '../stores/user';
 
 // Components
 import TheCard from "../components/TheCard.vue";
@@ -67,17 +66,13 @@ import { EventBus } from '../utils/EventBus.js';
 import { XMarkIcon, PlusIcon } from "@heroicons/vue/24/solid";
 
 // Props
-const props = defineProps({ list: Object });
+const props = defineProps({ list: Object, isLoggedIn: Boolean });
 
 // Data
 const listItems = ref(props.list.items);
 
 // Emits
 const emit = defineEmits(["onStart", "onDrop", 'onChange']);
-
-// check if user is logged in
-const userStore = useUserStore();
-const isLoggedIn = computed(() => userStore.user !== null);
 
 // Modal Open/Close Methods
 const isOpen = ref(false);

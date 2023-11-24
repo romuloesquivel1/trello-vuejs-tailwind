@@ -79,17 +79,14 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, defineProps } from "vue";
 import { TransitionRoot, TransitionChild, Dialog, DialogOverlay, DialogTitle } from "@headlessui/vue";
 import { useBoardStore } from "@/stores/board";
-import { useUserStore } from "@/stores/user";
+
+defineProps({ isLoggedIn: Boolean });
 
 // Store
 const boardStore = useBoardStore();
-
-// check if user is logged in
-const userStore = useUserStore();
-const isLoggedIn = computed(() => userStore.user !== null);
 
 // Modal Open/Close
 const isOpen = ref(false);

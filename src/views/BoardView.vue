@@ -28,14 +28,13 @@
 						<!-- Board Lists -->
 						<TheList
 							v-for="list in lists"
-							:key="list.id"
-							:list="list"
-							@onChange="onChange"
+							:key="list.id" :list="list"
+							@onChange="onChange" :isLoggedIn="isLoggedIn"
 						/>
 
 						<!-- Add List -->
 						<div class="w-72">
-							<AddList />
+							<AddList :isLoggedIn="isLoggedIn" />
 						</div>
 					</div>
 				</div>

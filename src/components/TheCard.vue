@@ -21,13 +21,12 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, } from "vue";
 import CardForm from "./CardForm.vue";
 import { TrashIcon, PencilIcon } from "@heroicons/vue/24/solid";
 import { EventBus } from '../utils/EventBus.js';
-import { useUserStore } from '../stores/user';
 
-const props = defineProps({ task: Object, listId: String });
+const props = defineProps({ task: Object, isLoggedIn: Boolean });
 
 // Modal Open/Close Methods
 const isOpen = ref(false);
@@ -39,10 +38,6 @@ function openEditModal() {
 function closeEditModal() {
 	isOpen.value = false;
 }
-
-// check if user is logged in
-const userStore = useUserStore();
-const isLoggedIn = computed(() => userStore.user !== null);
 
 // Confirm Modal
 function openConfirmModal() {
