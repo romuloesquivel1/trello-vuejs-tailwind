@@ -3,7 +3,7 @@ import { RouterLink } from "vue-router";
 </script>
 
 <template>
-	<main class="flex h-screen flex-col items-center justify-around">
+	<main class="flex min-h-[calc(100vh-60px)] flex-col items-center justify-around">
 		<div class="max-w-md text-center">
 			<h1 class="text-2xl font-semibold text-gray-700">Welcome to Trello Vue</h1>
 			<p class="mt-2 text-gray-500">
