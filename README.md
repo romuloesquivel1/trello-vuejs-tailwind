@@ -1,4 +1,4 @@
-# Trello Clone
+# Trello Vue Demo
 
 This template should help get you started developing with Vue 3 in Vite and Tailwind 3.
 
@@ -8,6 +8,11 @@ This template should help get you started developing with Vue 3 in Vite and Tail
   - Save user info to LocalStorage
   - Save board to LocalStorage for enable Reset to test
   - Confirm delete modal
+
+## Live demo
+Check screenshots-video folder
+
+![board](screenshots-video/board.bmp)
 
 ## Recommended IDE Setup
 
